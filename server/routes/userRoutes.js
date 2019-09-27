@@ -8,9 +8,10 @@ const userController = require('../Controllers/userController');
 
 appUser.post('/login', userController.login);
 
+appUser.get('/listar', userController.listar);
+
 //Rutas protegidas
 appUser.use(auth.protegerRutas);
-appUser.get('/listar', userController.listar);
 appUser.post('/crear', userController.crear);
 appUser.put('/modificar', userController.modificar);
 appUser.delete('/borrar', userController.borrar);

@@ -7,8 +7,7 @@ function protegerRutas(req, res, next) {
     if (!authToken) {
         res.status(400).send({ message: 'Acceso Denegado.' })
     } else {
-        let token = authToken;
-        next();
+        if (jwtHelper.decode(authToken)) next();
     }
 }
 

@@ -17,7 +17,10 @@ exports.encode = function(user) {
     return token;
 }
 
-exports.decode = function(token) {
-    let respuesta = jwt.decode(token, clave);
-    return respuesta;
+exports.decode = function(token, res, req) {
+    jwt.verify(token, clave).then(token => {
+        return jwt.decode(token, clave);
+    }).catch(err => {
+        return res.status(400).json({token: 'Token expirado', error: err})
+    })
 }

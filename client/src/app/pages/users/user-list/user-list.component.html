@@ -1,0 +1,20 @@
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Email</th>
+            <th scope="col">Opciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let user of users; let i=index">
+            <td>{{ user.name }}</td>
+            <td>{{ user.email }}</td>
+            <td>
+                <button mat-button class="btn btn-warning">Editar</button>
+                <button mat-button class="btn btn-danger">Borrar</button>
+            </td>
+        </tr>
+    </tbody>
+</table>
