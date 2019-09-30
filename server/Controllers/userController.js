@@ -13,6 +13,19 @@ function listar(req, res) {
 }
 
 
+function getUser(req, res) {
+    let id = req.query.id;
+    User.findOne({ _id: id }, { pass: 0 }).then(respUser => {
+        if (respUser) {
+            return res.status(200).json({ 'message': 'USUARIO', 'Usuario': respUser });
+        } else {
+            return res.status(400).json({ 'error': 'No se ha encontrado el usuario.' })
+        }
+    }).catch(err => {
+        return res.status(400).json({ 'message': 'No se puede listar Usuarios.', 'error': err });
+    });
+}
+
 function crear(req, res) {
     const usuario = req.body.user;
     let newUser = new User(usuario);
@@ -57,9 +70,9 @@ function modificar(req, res) {
 
 function updatePass(req, res) {
     let id = req.query.id;
-    const password = req.body.user.password;
+    const password = req.body.pass;
 
-    if(id.length === 24) {
+    if (id.length === 24) {
         bcrypt.hash(password, saltRounds, (err, hash) => {
             if (err) return res.status(400).json({ message: 'No se ha podido encriptar.' });
             if (hash) {
@@ -70,7 +83,7 @@ function updatePass(req, res) {
             }
         });
     } else {
-        return res.status(400).json({message: 'Id de usuario no valida'});
+        return res.status(400).json({ message: 'Id de usuario no valida' });
     }
 }
 
@@ -90,20 +103,21 @@ function borrar(req, res) {
 
 function login(req, res) {
     let usuario = req.body.user;
+
     User.findOne({ email: usuario.email }, (err, usuarioLogueado) => {
         if (err) return res.status(400).json({ 'error': 'Usuario no encontrado.' });
         if (usuarioLogueado) {
-            bcrypt.compare(usuario.pass, usuarioLogueado.pass, (error, response) => {
+            bcrypt.compare(usuario.password, usuarioLogueado.pass, (error, response) => {
                 if (error) return res.status(400).json({ 'error': 'Contraseña erronea.', 'error': error });
                 if (response) {
-                    let token = jwtToken.encode(usuarioLogueado);
-                    return res.status(200).json({ message: 'Usuario Logueado', token: token });
+                    let token = jwtToken.encode(usuarioLogueado)
+                    return res.status(200).json({ message: 'Usuario Logueado', 'token': token, 'user':usuarioLogueado });
                 } else {
                     return res.status(400).json({ 'error': 'Usuario y Contraseña no coinciden.' })
                 }
             });
         } else {
-            return res.status(400).json({ 'Error': 'Usuario no existe.'});
+            return res.status(400).json({ 'Error': 'Usuario no existe.' });
         }
     });
 }
@@ -114,5 +128,6 @@ module.exports = {
     modificar,
     borrar,
     login,
-    updatePass
+    updatePass,
+    getUser
 };

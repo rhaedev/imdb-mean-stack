@@ -1,1 +1,68 @@
-<p>user-edit works!</p>
+<form [formGroup]='editForm' (ngSubmit)="onSubmit()" (keydown.enter)="$event.preventDefault()">
+    <div class="form-group">
+        <label>Nombre</label>
+        <input type="text" formControlName="name" class="form-control" id="name" aria-describedby="name"
+            placeholder="Nombre">
+        <div *ngIf="editForm.get('name').invalid && (editForm.get('name').dirty || editForm.get('name').touched)"
+            class="alert alert-danger">
+
+            <div *ngIf="editForm.get('name').getError('required')">
+                <b>Nombre</b> es necesario
+            </div>
+            <div *ngIf="editForm.get('name').getError('minlength')">
+                El <b>Nombre</b> tiene que tener una longitud de 4 caracteres.
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label>Nick</label>
+        <input type="text" formControlName="nick" class="form-control" id="nick" aria-describedby="nick"
+            placeholder="Nick">
+        <div *ngIf="editForm.get('nick').invalid && (editForm.get('nick').dirty || editForm.get('nick').touched)"
+            class="alert alert-danger">
+
+            <div *ngIf="editForm.get('nick').getError('required')">
+                <b>Nick</b> es necesario.
+            </div>
+            <div *ngIf="editForm.get('nick').getError('minlength')">
+                EL <b>Nick</b> tiene que tener una longitud de 4 caracteres.
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label>Email</label>
+        <input type="text" formControlName="email" class="form-control" id="email" aria-describedby="email"
+            placeholder="Correo Electronico">
+        <div *ngIf="editForm.get('email').invalid && (editForm.get('email').dirty || editForm.get('email').touched)"
+            class="alert alert-danger">
+
+            <div *ngIf="editForm.get('email').getError('required')">
+                Email es necesario.
+            </div>
+            <div *ngIf="editForm.get('email').getError('minlength')">
+                El formato del <b>Email</b> es incorrecto.
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label>Contraseña</label>
+        <input type="text" formControlName="pass" class="form-control" id="pass" aria-describedby="pass"
+            placeholder="Contraseña">
+        <div *ngIf="editForm.get('pass').invalid && (editForm.get('pass').dirty || editForm.get('pass').touched)"
+            class="alert alert-danger">
+
+            <div *ngIf="editForm.get('pass').getError('required')">
+                La <b>Contraseña</b> es necesaria.
+            </div>
+            <div *ngIf="editForm.get('pass').getError('minlength')">
+                La <b>Contraseña</b> no cumple los requisitos.
+            </div>
+        </div>
+    </div>
+    <button type="submit" class="btn btn-primary">Enviar</button>
+</form>
+
+<div *ngIf="errores" class="alert alert-warning" role="alert">
+    <h2>Errores</h2>
+    <div>{{ message }}</div>
+</div>

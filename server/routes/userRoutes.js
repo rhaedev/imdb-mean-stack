@@ -10,11 +10,13 @@ appUser.post('/login', userController.login);
 
 appUser.get('/listar', userController.listar);
 
+appUser.delete('/borrar', userController.borrar);
+
 //Rutas protegidas
-appUser.use(auth.protegerRutas);
+//appUser.use(auth.protegerRutas);
+appUser.get('/usuario', userController.getUser);
 appUser.post('/crear', userController.crear);
 appUser.put('/modificar', userController.modificar);
-appUser.delete('/borrar', userController.borrar);
 appUser.put('/updatePass', userController.updatePass);
 
 module.exports = appUser;
